@@ -31,8 +31,10 @@ spec:
 {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
 {{- end }}
+      {{- if not .Values.disableSecurityContexts }}
       securityContext:
 {{ toYaml .Values.podSecurityContext | indent 8 }}
+      {{- end }}
       serviceAccountName: {{ template "opensearch-dashboards.serviceAccountName" . }}
       {{- if .Values.hostAliases }}
       hostAliases: {{ toYaml .Values.hostAliases | nindent 6 }}
@@ -90,8 +92,10 @@ spec:
       {{- end }}
       containers:
       - name: dashboards
+      {{- if not .Values.disableSecurityContexts }}
         securityContext:
 {{ toYaml .Values.securityContext | indent 10 }}
+      {{- end }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         {{- if .Values.readinessProbe }}

@@ -86,6 +86,10 @@ extraInitContainers: ""
 
 extraContainers: ""
 
+# Disables the podSecurityContext and securityContext to allow running
+# on openshift with automated security context
+disableSecurityContexts: false
+
 podSecurityContext: {}
 
 securityContext:
